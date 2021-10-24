@@ -35,30 +35,38 @@ $(function () {
                     hour ++;
                 }
             
-                // 0埋め
-                msec_number = ('0' +msec).slice(-1);
+                //各単位、一桁台の時にも十の位に０を表示させる　(msecは二桁になることがないので適用しない)
+                //sliceを使用して、二桁以上の数字は取得しないようにする(二桁台に突入した際、０を表示されなくさせる)  
+
                 sec_number = ('0' + sec).slice(-2);
                 min_number = ('0' + min).slice(-2);
                 hour_number = ('0' + hour).slice(-2);
                 
                 // 時間表示
-                $('#timer').html(hour_number + '時間' +  min_number + '分' + sec_number + '秒' + msec_number);
+                $('#timer').html(hour_number + '時間' +  min_number + '分' + sec_number + '秒' + msec);
+                
 
               }, 100);　//この一連の動作を100msごとに行う
 
-              // スタート実行後、スタートボタン機能を停止させる
-              $(this).prop("disabled", true);
 
-              // ストップ
+              //デフォルトで、ストップとリスタートボタンはdisabled済
+              // スタート実行後、スタートボタン機能を停止させ,ストップボタン機能開始
+              $(this).prop("disabled", true);
+              $('#stop').prop("disabled", false);
+
+
+              // ストップボタン実行
 
                $('#stop').click(function(){
-                 clearInterval(countUp);//14行目変数countUpのスコープ内に記述
+                 clearInterval(countUp);//14行目変数countUpのスコープ内に記述　
                  $(this).prop("disabled", true);//ストップボタン機能停止
+                 $('#reset').prop("disabled", false);//リセットバタン機能開始
                 });
 
               });  
 
-             //リセット
+
+              //リセットボタン実行
               
              $('#reset').click(function(){
 
@@ -69,7 +77,7 @@ $(function () {
 
              $('#timer').html('00時間00分00秒0');//文字リセット
              $('#start').prop("disabled", false);//スタートボタン停止解除
-             $('#stop').prop("disabled", false);//ストップボタン停止解除
+            $('#reset').prop("disabled", true);//リセットボタン機能停止
 
              });
 });
